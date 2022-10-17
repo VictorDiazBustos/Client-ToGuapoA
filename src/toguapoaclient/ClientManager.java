@@ -10,19 +10,20 @@
 
 package toguapoaclient;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.Socket;
 
 // This class conects reads and writes from the machine to a local server to provide message exchange.
 public class ClientManager {
     // SERVER PORT AND HOST
     final int PORT = 49080;
-    final String HOST = "127.0.0.1";
+    final String HOST = "192.168.3.240";
     Socket sc;
-    DataInputStream in;
-    DataOutputStream out;
+    PrintStream toServer;
+    BufferedReader fromServer;
 
     public ClientManager() {
 
@@ -41,9 +42,10 @@ public class ClientManager {
         boolean connected;
 
         try {
+            System.out.println("Connecting...");
             sc = new Socket(this.HOST, this.PORT);
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
+            toServer = new PrintStream(sc.getOutputStream());
+            fromServer = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             connected = true;
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -61,12 +63,10 @@ public class ClientManager {
      * 
      *This method read a String written by the client from the
      *and writes it in the interface created by the server.
-     *
-     *
      */
 
     public void write(String message) throws IOException {
-        out.writeUTF(message);
+        this.toServer.println(message);
     }
 
     /**
@@ -80,7 +80,7 @@ public class ClientManager {
         String line = "";
 
         try {
-            line = in.readUTF();
+            line = fromServer.readLine();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

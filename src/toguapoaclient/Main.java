@@ -23,6 +23,11 @@ public class Main {
             throw new ConnectException("Server connection failed");
         }
 
+        System.out.println("Connected");
+        
+        // Start reader daemon
+        ReaderDaemon reader = new ReaderDaemon();
+        reader.run();
 
         Scanner scanner = new Scanner(System.in);
         String myMessage;
@@ -31,7 +36,7 @@ public class Main {
         while(true){
             myMessage = scanner.nextLine();
             manager.write(myMessage);
+            //System.out.println(manager.read());
         }
-    }
-    
+    }   
 }
