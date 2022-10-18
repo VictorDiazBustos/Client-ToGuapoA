@@ -22,41 +22,54 @@ import java.util.logging.Logger;
 // This class conects reads and writes from the machine to a local server to provide message exchange.
 public class ClientManager {
     // SERVER PORT AND HOST
-    final int PORT = 49080;
-    final String HOST = "192.168.3.240";
-    Socket sc;
-    PrintStream toServer;
-    BufferedReader fromServer;
+    //final int PORT = 49080;
+    //final String HOST = "192.168.3.240";
+    private final int PORT;
+    private final String HOST = null;
+    private Socket sc;
+    private PrintStream toServer;
+    private BufferedReader fromServer;
+    private boolean connected;
     
     //LOGGER
-    Logger log;
+    private Logger log;
 
-    public ClientManager() {
+    public ClientManager(int port, String host) {
+        this.PORT = port;
+        this.HOST = host;
+        this.connected = false;
+        
+        // Create logger
         try {
             log = Logger.getLogger(ClientManager.class.getName());
             log.addHandler(new FileHandler("log.txt"));
         } catch (IOException e) {
-            log.log(java.util.logging.Level.SEVERE, e.getMessage());
+            log.severe( e.getMessage());
         } catch (SecurityException e) {
-            log.log(java.util.logging.Level.SEVERE, e.getMessage());
+            log.severe(e.getMessage());
         }
         
+        // Try connexion
         try {
             log.info("Connecting...");
-            sc = new Socket(this.HOST, this.PORT);
+            sc = new Socket(HOST, PORT);
             toServer = new PrintStream(sc.getOutputStream());
             fromServer = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             log.info("Connected successfully");
+            connected = true;
         } catch (IOException e) {
-            log.log(java.util.logging.Level.SEVERE, "Error while trying to connect to the server");
+            log.severe("Error while trying to connect to the server");
             System.out.println(e.getMessage());
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Error while trying to connect to the server");
+            log.severe("Error while trying to connect to the server");
             System.out.println(e.getMessage());
         }
     }
 
     public ClientManager(Socket sc, PrintStream toServer, BufferedReader fromServer) {
+        this.connected = false;
+        
+        // Create logger
         try {
             log = Logger.getLogger(ClientManager.class.getName());
             log.addHandler(new FileHandler("log.txt"));
@@ -64,41 +77,48 @@ public class ClientManager {
             System.out.println(e.getMessage());
         }
         
-        log.info("Connecting...");
-        this.sc = sc;
-        this.toServer = toServer;
-        this.fromServer = fromServer;
-        log.info("Connected successfully");
+        // Retry connexion
+        try{
+            log.info("Connecting...");
+            this.sc = sc;
+            this.toServer = toServer;
+            this.fromServer = fromServer;
+            log.info("Connected successfully");
+            connected = true;
+        } catch (Exception e) {
+            log.severe( "Error while trying to connect to the server");
+            System.out.println(e.getMessage());
+        }
+        this.PORT = 0;
     }
 
     /**
-     * This method conects the machine to the server via Socket
-     * If the conection is succesfull the machine will be able to write and
-     * read Strings from and to the server.
+     * Getter for atribute connected
      *
-     * @return Returns True if the conection is succesfull, if the conection fails,
-     *         the method will return false.
+     * @return The value of the atribute connected
      */
+    public boolean isConnected(){
+        return this.connected;
+    }
 
     /**
      * @param message Phrase written by the client
-     * 
+     * @throws WriteException
      *This method read a String written by the client from the
      *and writes it in the interface created by the server.
      */
-
     public void write(String message) throws WriteException {
         try{
             this.toServer.println(message);
             log.log(Level.INFO, "Writtinng message: {0}", message);
         } catch (Exception e){
-            log.log(Level.SEVERE, e.getMessage());
+            log.severe(e.getMessage());
             throw new WriteException();
         }
     }
 
     /**
-     * This method read a String from the
+     * This method reads a String from the
      * server and returns the readed String.
      *
      * @return String The message that the server sent.
@@ -111,10 +131,77 @@ public class ClientManager {
             line = fromServer.readLine();
             log.log(Level.INFO, "Reading message{0}", line);
         } catch (IOException e) {
-            log.log(java.util.logging.Level.SEVERE, e.getMessage());
+            log.severe(e.getMessage());
         }
 
         return line;
     }
     
+    /**
+     * This method reads a username and password
+     * from the server and returns they are correct.
+     *
+     * @param username
+     * @param password
+     * @return Boolean True if credentials match
+     * @throws IOException
+     *
+     */
+    public boolean sendCredentials(String username, String password) throws IOException{
+        // Server asks for username
+        log.info("Function SendCredentials");
+        
+        String server_message = this.fromServer.readLine();
+        if(server_message.toUpperCase().equals("USERNAME:"))
+            this.toServer.println(username);
+
+        // Server asks for password
+        server_message = this.fromServer.readLine();
+        if(server_message.toUpperCase().equals("PASSWORD:"))
+            this.toServer.println(password);
+        
+        // Server answers 'successful' or 'Error'
+        server_message = this.fromServer.readLine();
+        if (server_message.toUpperCase().equals("SUCCESSFUL")){
+            log.info("Crendentials matched succesfully");
+            return true;
+        }else{
+            log.severe("Wrong credentials");
+            return false;
+        }
+    }
+
+    /**
+     * This method logs in a user into
+     * the server
+     *
+     * @param username
+     * @param password
+     * @return Boolean True if login is succesful
+     * @throws IOException
+     *
+     */
+    public boolean login(String username, String password) throws IOException{
+        // Send login request
+        this.toServer.println("LOGIN");
+
+        return sendCredentials(username, password);
+    }
+
+    /**
+     * This method registers a user into
+     * the server
+     *
+     * @param username
+     * @param password
+     * @return Boolean True if registration is succesful
+     * @throws IOException
+     *
+     */
+    public boolean register(String username, String password) throws IOException{
+        // Send register request
+        toServer.println("REGISTER");
+        
+        return sendCredentials(username, password);
+    }
 }

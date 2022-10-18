@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2022-10-18T09:48:50.363279200Z</date>
-  <millis>1666086530363</millis>
-  <nanos>279200</nanos>
+  <date>2022-10-18T13:44:28.898741400Z</date>
+  <millis>1666100668898</millis>
+  <nanos>741400</nanos>
   <sequence>0</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Connecting...</message>
 </record>
 <record>
-  <date>2022-10-18T09:48:50.413146500Z</date>
-  <millis>1666086530413</millis>
-  <nanos>146500</nanos>
+  <date>2022-10-18T13:44:28.983513300Z</date>
+  <millis>1666100668983</millis>
+  <nanos>513300</nanos>
   <sequence>1</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
@@ -26,22 +26,34 @@
   <message>Connected successfully</message>
 </record>
 <record>
-  <date>2022-10-18T09:48:50.427108700Z</date>
-  <millis>1666086530427</millis>
-  <nanos>108700</nanos>
+  <date>2022-10-18T13:44:29.010441300Z</date>
+  <millis>1666100669010</millis>
+  <nanos>441300</nanos>
   <sequence>2</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
   <class>toguapoaclient.ClientManager</class>
-  <method>write</method>
+  <method>sendCredentials</method>
   <thread>1</thread>
-  <message>Writtinng message: Test message</message>
+  <message>Function SendCredentials</message>
 </record>
 <record>
-  <date>2022-10-18T09:48:50.443065500Z</date>
-  <millis>1666086530443</millis>
-  <nanos>65500</nanos>
+  <date>2022-10-18T13:44:29.018419700Z</date>
+  <millis>1666100669018</millis>
+  <nanos>419700</nanos>
   <sequence>3</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>sendCredentials</method>
+  <thread>1</thread>
+  <message>Crendentials matched succesfully</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.040361800Z</date>
+  <millis>1666100669040</millis>
+  <nanos>361800</nanos>
+  <sequence>4</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
   <class>toguapoaclient.ClientManager</class>
@@ -50,10 +62,10 @@
   <message>Connecting...</message>
 </record>
 <record>
-  <date>2022-10-18T09:48:50.444068100Z</date>
-  <millis>1666086530444</millis>
-  <nanos>68100</nanos>
-  <sequence>4</sequence>
+  <date>2022-10-18T13:44:29.041359Z</date>
+  <millis>1666100669041</millis>
+  <nanos>359000</nanos>
+  <sequence>5</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
   <class>toguapoaclient.ClientManager</class>
@@ -62,10 +74,10 @@
   <message>Connected successfully</message>
 </record>
 <record>
-  <date>2022-10-18T09:48:50.446058300Z</date>
-  <millis>1666086530446</millis>
-  <nanos>58300</nanos>
-  <sequence>5</sequence>
+  <date>2022-10-18T13:44:29.043353600Z</date>
+  <millis>1666100669043</millis>
+  <nanos>353600</nanos>
+  <sequence>6</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
   <class>toguapoaclient.ClientManager</class>
@@ -74,10 +86,10 @@
   <message>Reading messagenull</message>
 </record>
 <record>
-  <date>2022-10-18T09:48:50.451046300Z</date>
-  <millis>1666086530451</millis>
-  <nanos>46300</nanos>
-  <sequence>6</sequence>
+  <date>2022-10-18T13:44:29.045350Z</date>
+  <millis>1666100669045</millis>
+  <nanos>350000</nanos>
+  <sequence>7</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
   <class>toguapoaclient.ClientManager</class>
@@ -85,3 +97,160 @@
   <thread>1</thread>
   <message>Reading messageTest message</message>
 </record>
+<record>
+  <date>2022-10-18T13:44:29.073272700Z</date>
+  <millis>1666100669073</millis>
+  <nanos>272700</nanos>
+  <sequence>8</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Connecting...</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.076265900Z</date>
+  <millis>1666100669076</millis>
+  <nanos>265900</nanos>
+  <sequence>9</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Connected successfully</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.137103100Z</date>
+  <millis>1666100669137</millis>
+  <nanos>103100</nanos>
+  <sequence>10</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Connecting...</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.142088900Z</date>
+  <millis>1666100669142</millis>
+  <nanos>88900</nanos>
+  <sequence>11</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Connected successfully</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.151065700Z</date>
+  <millis>1666100669151</millis>
+  <nanos>65700</nanos>
+  <sequence>12</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>write</method>
+  <thread>1</thread>
+  <message>Writtinng message: Test message</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.161038800Z</date>
+  <millis>1666100669161</millis>
+  <nanos>38800</nanos>
+  <sequence>13</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Connecting...</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.164031100Z</date>
+  <millis>1666100669164</millis>
+  <nanos>31100</nanos>
+  <sequence>14</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Connected successfully</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.167023200Z</date>
+  <millis>1666100669167</millis>
+  <nanos>23200</nanos>
+  <sequence>15</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>sendCredentials</method>
+  <thread>1</thread>
+  <message>Function SendCredentials</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.199935100Z</date>
+  <millis>1666100669199</millis>
+  <nanos>935100</nanos>
+  <sequence>16</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>sendCredentials</method>
+  <thread>1</thread>
+  <message>Crendentials matched succesfully</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.207912600Z</date>
+  <millis>1666100669207</millis>
+  <nanos>912600</nanos>
+  <sequence>17</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Connecting...</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.209910Z</date>
+  <millis>1666100669209</millis>
+  <nanos>910000</nanos>
+  <sequence>18</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Connected successfully</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.211902800Z</date>
+  <millis>1666100669211</millis>
+  <nanos>902800</nanos>
+  <sequence>19</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>sendCredentials</method>
+  <thread>1</thread>
+  <message>Function SendCredentials</message>
+</record>
+<record>
+  <date>2022-10-18T13:44:29.215892800Z</date>
+  <millis>1666100669215</millis>
+  <nanos>892800</nanos>
+  <sequence>20</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>sendCredentials</method>
+  <thread>1</thread>
+  <message>Crendentials matched succesfully</message>
+</record>
+</log>
