@@ -38,6 +38,35 @@ public class ClientManager {
         } catch (IOException | SecurityException e) {
             System.out.println(e.getMessage());
         }
+        
+        try {
+            log.info("Connecting...");
+            sc = new Socket(this.HOST, this.PORT);
+            toServer = new PrintStream(sc.getOutputStream());
+            fromServer = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            log.info("Connected successfully");
+        } catch (IOException e) {
+            log.log(java.util.logging.Level.SEVERE, "Error while trying to connect to the server");
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error while trying to connect to the server");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public ClientManager(Socket sc, PrintStream toServer, BufferedReader fromServer) {
+        try {
+            log = Logger.getLogger(ClientManager.class.getName());
+            log.addHandler(new FileHandler("log.txt"));
+        } catch (IOException | SecurityException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        log.info("Connecting...");
+        this.sc = sc;
+        this.toServer = toServer;
+        this.fromServer = fromServer;
+        log.info("Connected successfully");
     }
 
     /**
@@ -48,29 +77,6 @@ public class ClientManager {
      * @return Returns True if the conection is succesfull, if the conection fails,
      *         the method will return false.
      */
-
-    public boolean connect() {
-        boolean connected;
-        log.info("Function connect()");
-
-        try {
-            System.out.println("Connecting...");
-            sc = new Socket(this.HOST, this.PORT);
-            toServer = new PrintStream(sc.getOutputStream());
-            fromServer = new BufferedReader(new InputStreamReader(sc.getInputStream()));
-            connected = true;
-        } catch (IOException e) {
-            log.log(java.util.logging.Level.SEVERE, "Error while trying to connect to the server");
-            System.out.println(e.getMessage());
-            connected = false;
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Error while trying to connect to the server");
-            System.out.println(e.getMessage());
-            connected = false;
-        }
-
-        return connected;
-    }
 
     /**
      * @param message Phrase written by the client

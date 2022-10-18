@@ -4,56 +4,65 @@
  */
 package toguapoaclient;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.mockito.Mockito;
+import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
  * @author vdiazbus
  */
 public class ClientManagerTest {
-    
-    public ClientManagerTest() {
-    }
 
-    /**
-     * Test of connect method, of class ClientManager.
-     */
-    @Test
-    public void testConnect() {
-        ClientManager manager = mock(ClientManager.class);
-        boolean expResult = false;
-        boolean result = instance.connect();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public ClientManagerTest() {
     }
 
     /**
      * Test of write method, of class ClientManager.
      */
     @Test
-    public void testWrite() throws Exception {
-        System.out.println("write");
-        String message = "";
-        ClientManager instance = new ClientManager();
-        instance.write(message);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testWrite() throws IOException {
+        // Given
+        // Mock creation
+        Socket sc = Mockito.mock(Socket.class);
+        PrintStream toServer = Mockito.mock(PrintStream.class);
+        BufferedReader fromServer = Mockito.mock(BufferedReader.class);
+        ClientManager manager = new ClientManager(sc, toServer, fromServer);
+
+        // Then
+        manager.write("Test message");
+
+        // Expect
+        Mockito.verify(toServer, Mockito.times(1)).println("Test message");
     }
 
     /**
      * Test of read method, of class ClientManager.
      */
     @Test
-    public void testRead() {
-        System.out.println("read");
-        ClientManager instance = new ClientManager();
-        String expResult = "";
-        String result = instance.read();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testRead() throws IOException {
+        // Given
+        //Mock creation
+        Socket sc = Mockito.mock(Socket.class);
+        PrintStream toServer = Mockito.mock(PrintStream.class);
+        BufferedReader fromServer = Mockito.mock(BufferedReader.class);
+        ClientManager manager = new ClientManager(sc, toServer, fromServer);
+
+        // Then
+        when(manager.read()).thenReturn("Test message");
+        String ReturnMessage = manager.read();
+
+
+        Mockito.verify(fromServer, Mockito.times(1)).readLine();
+
+        assertEquals(ReturnMessage, "Test message");
     }
-    
+
 }

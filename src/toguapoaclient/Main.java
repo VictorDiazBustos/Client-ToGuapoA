@@ -18,13 +18,6 @@ public class Main {
     public static void main(String[] args) throws ConnectException, IOException {
         ClientManager manager = new ClientManager();
 
-        // The manager attempts to conect to the local server
-        if(!manager.connect()){
-            throw new ConnectException("Server connection failed");
-        }
-
-        System.out.println("Connected");
-        
         // Start reader daemon
         ReaderDaemon reader = new ReaderDaemon(manager);
 
