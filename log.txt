@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2022-10-17T13:40:01.104922700Z</date>
-  <millis>1666014001104</millis>
-  <nanos>922700</nanos>
+  <date>2022-10-18T08:04:05.336653Z</date>
+  <millis>1666080245336</millis>
+  <nanos>653000</nanos>
   <sequence>0</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
@@ -12,4 +12,64 @@
   <method>connect</method>
   <thread>1</thread>
   <message>Function connect()</message>
+</record>
+<record>
+  <date>2022-10-18T08:04:07.386449900Z</date>
+  <millis>1666080247386</millis>
+  <nanos>449900</nanos>
+  <sequence>1</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>read</method>
+  <thread>13</thread>
+  <message>Function read</message>
+</record>
+<record>
+  <date>2022-10-18T08:04:13.123398800Z</date>
+  <millis>1666080253123</millis>
+  <nanos>398800</nanos>
+  <sequence>2</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>write</method>
+  <thread>1</thread>
+  <message>Function write</message>
+</record>
+<record>
+  <date>2022-10-18T08:04:15.580095500Z</date>
+  <millis>1666080255580</millis>
+  <nanos>95500</nanos>
+  <sequence>3</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>read</method>
+  <thread>13</thread>
+  <message>Function read</message>
+</record>
+<record>
+  <date>2022-10-18T08:04:18.091276100Z</date>
+  <millis>1666080258091</millis>
+  <nanos>276100</nanos>
+  <sequence>4</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>write</method>
+  <thread>1</thread>
+  <message>Function write</message>
+</record>
+<record>
+  <date>2022-10-18T08:04:18.608552100Z</date>
+  <millis>1666080258608</millis>
+  <nanos>552100</nanos>
+  <sequence>5</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>read</method>
+  <thread>13</thread>
+  <message>Function read</message>
 </record>
