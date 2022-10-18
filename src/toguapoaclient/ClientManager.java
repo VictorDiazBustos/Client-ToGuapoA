@@ -35,8 +35,10 @@ public class ClientManager {
         try {
             log = Logger.getLogger(ClientManager.class.getName());
             log.addHandler(new FileHandler("log.txt"));
-        } catch (IOException | SecurityException e) {
-            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            log.log(java.util.logging.Level.SEVERE, e.getMessage());
+        } catch (SecurityException e) {
+            log.log(java.util.logging.Level.SEVERE, e.getMessage());
         }
         
         try {
@@ -85,9 +87,14 @@ public class ClientManager {
      *and writes it in the interface created by the server.
      */
 
-    public void write(String message) throws IOException {
-        log.info("Function write");
-        this.toServer.println(message);
+    public void write(String message) throws WriteException {
+        try{
+            this.toServer.println(message);
+            log.log(Level.INFO, "Writtinng message: {0}", message);
+        } catch (Exception e){
+            log.log(Level.SEVERE, e.getMessage());
+            throw new WriteException();
+        }
     }
 
     /**
@@ -98,13 +105,13 @@ public class ClientManager {
      *
      */
     public String read() {
-        log.info("Function read");
         String line = "";
 
         try {
             line = fromServer.readLine();
+            log.log(Level.INFO, "Reading message{0}", line);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            log.log(java.util.logging.Level.SEVERE, e.getMessage());
         }
 
         return line;

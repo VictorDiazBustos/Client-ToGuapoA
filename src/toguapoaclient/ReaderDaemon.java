@@ -11,7 +11,6 @@ public class ReaderDaemon extends Thread{
     @Override
     public void run(){
         String errorMessage = "Server connection failed";
-        System.out.println("RUNNING DAEMON");
         String message;
         while(true){
             if(!(message = this.manager.read()).equals("")){
