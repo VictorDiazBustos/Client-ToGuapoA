@@ -24,11 +24,87 @@ public class ClientManagerTest {
     public ClientManagerTest() {
     }
 
+    @Test
+    public void testIsConnected(){
+        // Given
+        // Mock creation
+        Socket sc = Mockito.mock(Socket.class);
+        PrintStream toServer = Mockito.mock(PrintStream.class);
+        BufferedReader fromServer = Mockito.mock(BufferedReader.class);
+        ClientManager manager = new ClientManager(sc, toServer, fromServer);
+
+        // Then
+        boolean realResult = manager.isConnected();
+
+        // Expect
+        assertEquals(true, realResult);
+    }
+
+    @Test
+    public void testsendCredentials() throws IOException{
+        // Given
+        // Mock creation
+        Socket sc = Mockito.mock(Socket.class);
+        PrintStream toServer = Mockito.mock(PrintStream.class);
+        BufferedReader fromServer = Mockito.mock(BufferedReader.class);
+        
+        ClientManager manager = new ClientManager(sc, toServer, fromServer);
+        String usermane = "username", password = "password";
+
+        when(fromServer.readLine()).thenReturn("USERNAME:", "PASSWORD:", "SUCCESSFUL");
+
+        // Then
+        boolean realResult = manager.sendCredentials(usermane, password);
+        
+        // Expect
+        assertEquals(true, realResult);
+    }
+    
+    @Test
+    public void testLogin() throws IOException{
+        // Given
+        // Mock creation
+        Socket sc = Mockito.mock(Socket.class);
+        PrintStream toServer = Mockito.mock(PrintStream.class);
+        BufferedReader fromServer = Mockito.mock(BufferedReader.class);
+        
+        ClientManager manager = new ClientManager(sc, toServer, fromServer);
+        String usermane = "username", password = "password";
+
+        when(fromServer.readLine()).thenReturn("USERNAME:", "PASSWORD:", "SUCCESSFUL");
+
+        // Then
+        boolean realResult = manager.login(usermane, password);
+        
+        // Expect
+        assertEquals(true, realResult);
+    }
+    
+    @Test
+    public void testRegister() throws IOException{
+        // Given
+        // Mock creation
+        Socket sc = Mockito.mock(Socket.class);
+        PrintStream toServer = Mockito.mock(PrintStream.class);
+        BufferedReader fromServer = Mockito.mock(BufferedReader.class);
+        
+        ClientManager manager = new ClientManager(sc, toServer, fromServer);
+        String usermane = "username", password = "password";
+
+        when(fromServer.readLine()).thenReturn("USERNAME:", "PASSWORD:", "SUCCESSFUL");
+
+        // Then
+        boolean realResult = manager.register(usermane, password);
+        
+        // Expect
+        assertEquals(true, realResult);
+    }
+    
     /**
      * Test of write method, of class ClientManager.
      */
     @Test
-    public void testWrite() throws IOException {
+    public void testWrite() throws IOException, WriteException {
         // Given
         // Mock creation
         Socket sc = Mockito.mock(Socket.class);
