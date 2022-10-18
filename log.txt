@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-10-17T13:40:01.104922700Z</date>
+  <millis>1666014001104</millis>
+  <nanos>922700</nanos>
+  <sequence>0</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>connect</method>
+  <thread>1</thread>
+  <message>Function connect()</message>
+</record>

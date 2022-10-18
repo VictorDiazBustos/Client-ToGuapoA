@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 // This class conects reads and writes from the machine to a local server to provide message exchange.
 public class ClientManager {
@@ -24,9 +27,17 @@ public class ClientManager {
     Socket sc;
     PrintStream toServer;
     BufferedReader fromServer;
+    
+    //LOGGER
+    Logger log;
 
     public ClientManager() {
-
+        try {
+            log = Logger.getLogger(ClientManager.class.getName());
+            log.addHandler(new FileHandler("log.txt"));
+        } catch (IOException | SecurityException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -40,6 +51,7 @@ public class ClientManager {
 
     public boolean connect() {
         boolean connected;
+        log.info("Function connect()");
 
         try {
             System.out.println("Connecting...");
@@ -48,9 +60,11 @@ public class ClientManager {
             fromServer = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             connected = true;
         } catch (IOException e) {
+            log.log(java.util.logging.Level.SEVERE, "Error while trying to connect to the server");
             System.out.println(e.getMessage());
             connected = false;
         } catch (Exception e) {
+            log.log(Level.SEVERE, "Error while trying to connect to the server");
             System.out.println(e.getMessage());
             connected = false;
         }
@@ -66,6 +80,7 @@ public class ClientManager {
      */
 
     public void write(String message) throws IOException {
+        log.info("Function write");
         this.toServer.println(message);
     }
 
@@ -77,6 +92,7 @@ public class ClientManager {
      *
      */
     public String read() {
+        log.info("Function read");
         String line = "";
 
         try {
@@ -87,4 +103,5 @@ public class ClientManager {
 
         return line;
     }
+    
 }
