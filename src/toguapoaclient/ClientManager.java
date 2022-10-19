@@ -206,4 +206,43 @@ public class ClientManager {
         
         return sendCredentials(username, password);
     }
+    /**
+    * Calls /List to cause the server to list all available rooms.
+    *
+    * @return String of all available rooms
+    */
+    public String listChatRooms() throws WriteException{
+        // Request server to create a new chat
+        write("/LIST");
+        String chat_rooms = "";
+        
+        try{
+            chat_rooms = read();
+        } catch (Exception e){
+            log.severe("Error. Error listing chat room.");
+        }
+
+        return chat_rooms;
+    }
+    /**
+    * Calls /List to cause the server to list all available rooms.
+    *
+    * @return String of all available rooms
+    */
+    public boolean joinChat(int chat_room) throws WriteException{
+        // Request server to join the selected chat room
+        write("/JOIN " + chat_room);
+        boolean result;
+        
+        try{
+            log.log(Level.INFO, "Chatroom joined: {0}", chat_room);
+            result = true;
+        } catch (Exception e){
+            log.log(Level.SEVERE, "Error. Error joined chat room {0}.", chat_room);
+            result = false;
+        }
+
+        return result;
+    }
 }
+
