@@ -225,9 +225,9 @@ public class ClientManager {
         return chat_rooms;
     }
     /**
-    * Calls /List to cause the server to list all available rooms.
+    * Calls /join with an id number
     *
-    * @return String of all available rooms
+    * @return boolean: true or false depending whether the join was succesull or not.
     */
     public boolean joinChat(int chat_room) throws WriteException{
         // Request server to join the selected chat room
