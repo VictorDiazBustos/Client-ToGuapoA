@@ -46,11 +46,6 @@ public class Main {
                 System.out.println("Invalid connection.\n");
         }while(!manager.isConnected());
         
-        // Show initial message
-        System.out.println("Esperando mensaje...");
-        System.out.println(manager.read());
-
-        
         // Try login/register
         boolean access = false;
         int option;
@@ -60,7 +55,11 @@ public class Main {
 
             do{
                 try{
-                    System.out.println("Please choose whether you want to login or register");
+                    // Show initial message
+                    System.out.println(manager.read());
+                    
+                    // Show options from server
+                    System.out.println(manager.read());
                     System.out.print("Enter (1) for login or (2) for register: ");
                     option = Integer.parseInt(scanner.nextLine());
                 } catch (NumberFormatException e){
@@ -79,6 +78,8 @@ public class Main {
             else if (option == 2)
                 access = manager.register(username, password);
         }
+        
+        System.out.println("*Connected successfully\n");
 
         // Start reader daemon
         ReaderDaemon reader = new ReaderDaemon(manager);

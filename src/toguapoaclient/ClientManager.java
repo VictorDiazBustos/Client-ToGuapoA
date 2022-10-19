@@ -129,7 +129,6 @@ public class ClientManager {
         String line = "";
 
         try {
-            log.log(Level.INFO, "Reading message");
             line = fromServer.readLine();
             log.log(Level.INFO, "Received message{0}", line);
         } catch (IOException e) {
@@ -151,11 +150,6 @@ public class ClientManager {
      */
     public boolean sendCredentials(String username, String password) throws IOException{
         // Server asks for username
-        log.info("Function SendCredentials");
-        log.log(Level.INFO, "username: " + username);        
-        log.log(Level.INFO, "password: " + password);
-
-        
         String server_message = read();
         System.out.println(server_message);
         if(server_message.toUpperCase().trim().equals("USER:"))
