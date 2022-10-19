@@ -59,7 +59,6 @@ public class Main {
                     System.out.println(manager.read());
                     
                     // Show options from server
-                    System.out.println(manager.read());
                     System.out.print("Enter (1) for login or (2) for register: ");
                     option = Integer.parseInt(scanner.nextLine());
                 } catch (NumberFormatException e){
@@ -81,16 +80,51 @@ public class Main {
         
         System.out.println("*Connected successfully\n");
 
-        // Start reader daemon
-        ReaderDaemon reader = new ReaderDaemon(manager);
+        while (true){
+            // Join chat
+            option = -1;
 
-        String myMessage;
-        // The message that the user intents to send is read. This is performed by a
-        // Deamon
-        // in order to keep the ability to read messages while writing one.
-        while (true) {
-            myMessage = scanner.nextLine();
-            manager.write(myMessage);
+
+            boolean chat_accessed = false;
+            while(!chat_accessed){
+                do{
+                    try{
+                        // Show initial message
+                        System.out.print("Press '1' to join in a chat, '2' to list the available chats: ");
+                        option = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e){
+                        System.out.println("Invalid option selected.\n");
+                    }
+                }while (option != 1 && option != 2);
+
+                if(option == 1){
+                    // Select chat room
+                    System.out.print("Select the chat room: ");
+                    int chat_room = Integer.parseInt(scanner.nextLine());
+                    chat_accessed = manager.joinChat(chat_room);
+                }
+                else if (option == 2){
+                    System.out.println(manager.listChatRooms());
+                }
+            }
+
+            System.out.println("*Chat joined. \nInsert '/LEAVE' to leave the chat room, \n'/JOIN to join in other chat room, \n'/LIST' to list the available chats.\n");
+
+            // Start reader daemon
+            ReaderDaemon reader = new ReaderDaemon(manager);
+
+            String myMessage;
+            // The message that the user intents to send is read. This is performed by a
+            // Deamon in order to keep the ability to read messages while writing one.
+            while (chat_accessed) {
+                myMessage = scanner.nextLine();
+                manager.write(myMessage);
+                if (myMessage.equals("/LEAVE"));
+                    chat_accessed = false;
+            }
+
+            // Kill reader daemon
+            reader.stopProcess();
         }
     }
 }
