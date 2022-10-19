@@ -45,23 +45,29 @@ public class Main {
             if(!manager.isConnected())
                 System.out.println("Invalid connection.\n");
         }while(!manager.isConnected());
-
-        //The user has to enter whether they want to login or register
-        int option = -1;
         
-        do{
-            try{
-                System.out.println("Please choose whether you want to login or register");
-                System.out.print("Enter (1) for login or (2) for register: ");
-                option = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e){
-                System.out.println("Invalid option selected.\n");
-            }
-        }while (option != 1 && option != 2);
+        // Show initial message
+        System.out.println("Esperando mensaje...");
+        System.out.println(manager.read());
+
         
         // Try login/register
         boolean access = false;
+        int option;
         while(!access){
+            //The user has to enter whether they want to login or register
+            option = -1;
+
+            do{
+                try{
+                    System.out.println("Please choose whether you want to login or register");
+                    System.out.print("Enter (1) for login or (2) for register: ");
+                    option = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e){
+                    System.out.println("Invalid option selected.\n");
+                }
+            }while (option != 1 && option != 2);
+        
             System.out.println("Please enter your username");
             String username = scanner.nextLine();
             System.out.println("Please enter your password");

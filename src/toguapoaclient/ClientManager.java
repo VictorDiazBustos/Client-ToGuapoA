@@ -24,8 +24,8 @@ public class ClientManager {
     // SERVER PORT AND HOST
     //final int PORT = 49080;
     //final String HOST = "192.168.3.240";
-    private final int PORT;
-    private final String HOST = null;
+    private int PORT;
+    private String HOST = null;
     private Socket sc;
     private PrintStream toServer;
     private BufferedReader fromServer;
@@ -110,6 +110,7 @@ public class ClientManager {
     public void write(String message) throws WriteException {
         try{
             this.toServer.println(message);
+            this.toServer.flush();
             log.log(Level.INFO, "Writtinng message: {0}", message);
         } catch (Exception e){
             log.severe(e.getMessage());
@@ -128,8 +129,9 @@ public class ClientManager {
         String line = "";
 
         try {
+            log.log(Level.INFO, "Reading message");
             line = fromServer.readLine();
-            log.log(Level.INFO, "Reading message{0}", line);
+            log.log(Level.INFO, "Received message{0}", line);
         } catch (IOException e) {
             log.severe(e.getMessage());
         }
@@ -150,18 +152,23 @@ public class ClientManager {
     public boolean sendCredentials(String username, String password) throws IOException{
         // Server asks for username
         log.info("Function SendCredentials");
+        log.log(Level.INFO, "username: " + username);        
+        log.log(Level.INFO, "password: " + password);
+
         
-        String server_message = this.fromServer.readLine();
-        if(server_message.toUpperCase().equals("USERNAME:"))
+        String server_message = read();
+        System.out.println(server_message);
+        if(server_message.toUpperCase().trim().equals("USER:"))
             this.toServer.println(username);
 
         // Server asks for password
-        server_message = this.fromServer.readLine();
-        if(server_message.toUpperCase().equals("PASSWORD:"))
+        server_message = read();
+        System.out.println(server_message);
+        if(server_message.toUpperCase().trim().equals("PASSWORD:"))
             this.toServer.println(password);
         
         // Server answers 'successful' or 'Error'
-        server_message = this.fromServer.readLine();
+        server_message = read();
         if (server_message.toUpperCase().equals("SUCCESSFUL")){
             log.info("Crendentials matched succesfully");
             return true;
