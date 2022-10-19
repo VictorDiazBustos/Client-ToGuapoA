@@ -129,6 +129,7 @@ public class ClientManager {
         String line = "";
 
         try {
+            log.log(Level.INFO, "Reading message");
             line = fromServer.readLine();
             log.log(Level.INFO, "Received message{0}", line);
         } catch (IOException e) {
