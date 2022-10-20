@@ -2,8 +2,11 @@ package toguapoaclient;
 
 public class ReaderDaemon extends Thread{
     ClientManager manager;
+    boolean exit;
+
     public ReaderDaemon(ClientManager manager){
         this.manager = manager;
+        this.exit = false;
         setDaemon(true);
         start();
     }
@@ -11,12 +14,19 @@ public class ReaderDaemon extends Thread{
     @Override
     public void run(){
         String errorMessage = "Server connection failed";
-        System.out.println("RUNNING DAEMON");
         String message;
-        while(true){
+        while(!this.exit){
             if(!(message = this.manager.read()).equals("")){
                 System.out.println(message);
             }
         }
     }
+    
+    /**
+     * Stop the daemon process
+     */
+    public void stopProcess(){
+        this.exit = true;
+    }
+
 }
