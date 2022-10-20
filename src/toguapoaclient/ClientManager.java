@@ -129,7 +129,6 @@ public class ClientManager {
         String line = "";
 
         try {
-            log.log(Level.INFO, "Reading message");
             line = fromServer.readLine();
             log.log(Level.INFO, "Received message{0}", line);
         } catch (IOException e) {
@@ -152,23 +151,21 @@ public class ClientManager {
     public boolean sendCredentials(String username, String password) throws IOException{
         // Server asks for username
         String server_message = read();
-        System.out.println(server_message);
         if(server_message.toUpperCase().trim().equals("USER:"))
             this.toServer.println(username);
 
         // Server asks for password
         server_message = read();
-        System.out.println(server_message);
         if(server_message.toUpperCase().trim().equals("PASSWORD:"))
             this.toServer.println(password);
         
         // Server answers 'successful' or 'Error'
         server_message = read();
-        if (server_message.toUpperCase().equals("SUCCESSFUL")){
+        if (server_message.trim().toUpperCase().equals("SUCCESSFUL")){
             log.info("Crendentials matched succesfully");
             return true;
         }else{
-            log.severe("Wrong credentials");
+            log.log(Level.SEVERE, "Wrong credentials: {0}", server_message);
             return false;
         }
     }
@@ -231,11 +228,27 @@ public class ClientManager {
     */
     public boolean joinChat(int chat_room) throws WriteException{
         // Request server to join the selected chat room
-        write("/JOIN " + chat_room);
         boolean result;
         
         try{
-            log.log(Level.INFO, "Chatroom joined: {0}", chat_room);
+            write("/JOIN " + chat_room);
+            log.log(Level.INFO, read());
+            result = true;
+        } catch (Exception e){
+            log.log(Level.SEVERE, "Error. Error joined chat room {0}.", chat_room);
+            result = false;
+        }
+
+        return result;
+    }
+    
+    public boolean joinChat(String chat_room) throws WriteException{
+        // Request server to join the selected chat room
+        boolean result;
+        
+        try{
+            write("/JOIN " + chat_room);
+            log.log(Level.INFO, read());
             result = true;
         } catch (Exception e){
             log.log(Level.SEVERE, "Error. Error joined chat room {0}.", chat_room);

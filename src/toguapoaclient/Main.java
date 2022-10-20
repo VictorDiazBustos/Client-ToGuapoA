@@ -100,15 +100,24 @@ public class Main {
                 if(option == 1){
                     // Select chat room
                     System.out.print("Select the chat room: ");
-                    int chat_room = Integer.parseInt(scanner.nextLine());
-                    chat_accessed = manager.joinChat(chat_room);
+                    String str_room = scanner.nextLine();
+                    try{
+                        int chat_room = Integer.parseInt(str_room);
+                        chat_accessed = manager.joinChat(chat_room);
+                    } catch (NumberFormatException e){
+                        if (str_room.toUpperCase().equals("GENERAL"))
+                            chat_accessed = manager.joinChat(str_room);
+                        
+                        else
+                            System.out.println("Invalid room selected");
+                    }
                 }
                 else if (option == 2){
                     System.out.println(manager.listChatRooms());
                 }
             }
 
-            System.out.println("*Chat joined. \nInsert '/LEAVE' to leave the chat room, \n'/JOIN to join in other chat room, \n'/LIST' to list the available chats.\n");
+            System.out.println("*Chat joined. \nInsert '/LEAVE' to leave the chat room, \n'/JOIN {chatroom}' to join in other chat room, \n'/LIST' to list the available chats.\n");
 
             // Start reader daemon
             ReaderDaemon reader = new ReaderDaemon(manager);
@@ -118,13 +127,18 @@ public class Main {
             // Deamon in order to keep the ability to read messages while writing one.
             while (chat_accessed) {
                 myMessage = scanner.nextLine();
-                manager.write(myMessage);
-                if (myMessage.equals("/LEAVE"));
+                if (myMessage.equals("/LEAVE")){
+                    // Kill reader daemon
+                    reader.stopProcess();
                     chat_accessed = false;
+                    manager.write(myMessage);
+                    System.out.println(manager.read());
+                }
+                else{
+                    manager.write(myMessage);
+                }
             }
 
-            // Kill reader daemon
-            reader.stopProcess();
         }
     }
 }
