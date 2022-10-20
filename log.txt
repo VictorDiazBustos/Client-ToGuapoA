@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2022-10-20T10:40:39.777425400Z</date>
-  <millis>1666262439777</millis>
-  <nanos>425400</nanos>
+  <date>2022-10-20T11:28:52.615047300Z</date>
+  <millis>1666265332615</millis>
+  <nanos>47300</nanos>
   <sequence>0</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Connecting...</message>
 </record>
 <record>
-  <date>2022-10-20T10:40:39.807985400Z</date>
-  <millis>1666262439807</millis>
-  <nanos>985400</nanos>
+  <date>2022-10-20T11:28:52.656785600Z</date>
+  <millis>1666265332656</millis>
+  <nanos>785600</nanos>
   <sequence>1</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
@@ -26,15 +26,63 @@
   <message>Connected successfully</message>
 </record>
 <record>
-  <date>2022-10-20T10:40:39.808982900Z</date>
-  <millis>1666262439808</millis>
-  <nanos>982900</nanos>
+  <date>2022-10-20T11:28:52.658033400Z</date>
+  <millis>1666265332658</millis>
+  <nanos>33400</nanos>
   <sequence>2</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>read</method>
+  <thread>1</thread>
+  <message>Reading message</message>
+</record>
+<record>
+  <date>2022-10-20T11:28:52.672314400Z</date>
+  <millis>1666265332672</millis>
+  <nanos>314400</nanos>
+  <sequence>3</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>read</method>
+  <thread>1</thread>
+  <message>Received messagenull</message>
+</record>
+<record>
+  <date>2022-10-20T11:28:52.682079800Z</date>
+  <millis>1666265332682</millis>
+  <nanos>79800</nanos>
+  <sequence>4</sequence>
   <logger>toguapoaclient.ClientManager</logger>
   <level>INFO</level>
   <class>toguapoaclient.ClientManager</class>
   <method>write</method>
   <thread>1</thread>
-  <message>Function write</message>
+  <message>Writtinng message: /LIST</message>
+</record>
+<record>
+  <date>2022-10-20T11:28:52.683077100Z</date>
+  <millis>1666265332683</millis>
+  <nanos>77100</nanos>
+  <sequence>5</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>read</method>
+  <thread>1</thread>
+  <message>Reading message</message>
+</record>
+<record>
+  <date>2022-10-20T11:28:52.686068100Z</date>
+  <millis>1666265332686</millis>
+  <nanos>68100</nanos>
+  <sequence>6</sequence>
+  <logger>toguapoaclient.ClientManager</logger>
+  <level>INFO</level>
+  <class>toguapoaclient.ClientManager</class>
+  <method>read</method>
+  <thread>1</thread>
+  <message>Received message[1,2,3,4,5]</message>
 </record>
 </log>

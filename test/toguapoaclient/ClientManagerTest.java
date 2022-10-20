@@ -140,5 +140,25 @@ public class ClientManagerTest {
 
         assertEquals(ReturnMessage, "Test message");
     }
+    
+        @Test
+        public void testListChatRooms() throws WriteException{
+        // Given
+        //Mock creation
+        Socket sc = Mockito.mock(Socket.class);
+        PrintStream toServer = Mockito.mock(PrintStream.class);
+        BufferedReader fromServer = Mockito.mock(BufferedReader.class);
+        
+        ClientManager manager = new ClientManager(sc, toServer, fromServer);
+
+        // Then
+        when(manager.read()).thenReturn("[1,2,3,4,5]");
+        
+        String ReturnMessage = manager.listChatRooms();
+
+
+        assertEquals(ReturnMessage, "[1,2,3,4,5]");
+    }
+
 
 }
