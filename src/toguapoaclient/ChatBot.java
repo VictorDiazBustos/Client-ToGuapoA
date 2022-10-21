@@ -1,30 +1,18 @@
 package toguapoaclient;
 
+import java.io.IOException;
 import java.lang.Math;
 import java.util.logging.Logger;
+import java.util.ArrayList;
 
-public class ChatBot extends Thread {
-    private static ClientManager  manager;
-    private static Logger log;
+public class ChatBot {
+    private ClientManager manager;
+    private Logger log;
+    private ArrayList<String> jokes;
+    private ArrayList<String> funFacts;
 
-    public static String answerBot(String entry, String[] jokes, String[] funFacts) {
-        int randomNumber;
-        entry = entry.toUpperCase();
-        if (entry.contains("JOKE")) {
-            randomNumber = (int) Math.random() * jokes.length;
-            return jokes[randomNumber];
-        }
-
-        else if (entry.contains("FUNFACTS")) {
-            randomNumber = (int) Math.random() * funFacts.length;
-            return funFacts[randomNumber];
-
-        }
-        return "";
-    }
-
-    public static void main(String[] args) {
-        log = Logger.getLogger(ClientManager.class.getName());
+    public ChatBot() {
+        this.log = Logger.getLogger(ClientManager.class.getName());
         String joke1 = "- Hello, I'm Rosa.\n" +
                 "- Oh, sorry, I'm color blind.";
         String joke2 = "¿Hola?\n" +
@@ -34,7 +22,10 @@ public class ChatBot extends Thread {
                 "- You are so dirty then.";
         String joke3 = "How did the telephone propose to its girlfriend? He gave her a ring.";
 
-        String[] jokes = { joke1, joke2, joke3 };
+        this.jokes = new ArrayList();
+        this.jokes.add(joke1);
+        this.jokes.add(joke2);
+        this.jokes.add(joke3);
 
         // Datos curiosos
         String funFact1 = "Did you know that the longest living insect is the termite queen/king, they can survive up to 50 years!";
@@ -43,16 +34,85 @@ public class ChatBot extends Thread {
         String funFact4 = "Did you know that lighters were invented before matchs?";
         String funFact5 = "did you know plancton is the biggest contributor to Oxigen(O2) generation in the planet?";
 
-        String funFacts[] = { funFact1, funFact2, funFact3, funFact4, funFact5 };
-        
+        this.funFacts = new ArrayList();
+        this.funFacts.add(funFact1);
+        this.funFacts.add(funFact2);
+        this.funFacts.add(funFact3);
+        this.funFacts.add(funFact4);
+        this.funFacts.add(funFact5);
+    }
 
-        while(true){     
-            String line = manager.read();  
+    public String answerBot(String entry) {
+        String answer = "";
+        int randomNumber;
+        entry = entry.toUpperCase();
+        if (entry.contains("JOKE")) {
+            randomNumber = (int) Math.random() * this.jokes.size();
+            answer = this.jokes.get(randomNumber);
+        }
 
+        else if (entry.contains("FUNFACTS")) {
+            randomNumber = (int) Math.random() * this.funFacts.size();
+            answer = this.funFacts.get(randomNumber);
+
+        }
+        return answer;
+    }
+
+    public void main(String[] args) {
+
+        // The user has to enter the Port and the Host to connect to a server.
+        int port = 49080;
+        String host = "192.168.3.240";
+
+        // Try conection
+        do {
+            manager = new ClientManager(port, host);
+
+            if (!manager.isConnected())
+                log.info("Chatbot invalid connection");
+        } while (!manager.isConnected());
+
+        // Try login/register
+        boolean access = false;
+
+        while (!access) {
+            String username = "Chatbot";
+            String password = "jpioj23ufh";
+            // Try to login
             try {
-                manager.write(answerBot(line, jokes, funFacts));
-            } catch (WriteException e) {
+                if (!(access = manager.login(username, password)))
+                    // If can not login, try to register
+                    access = manager.register(username, password);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
                 log.info(e.getMessage());
+            }
+        }
+
+        System.out.println("*Connected successfully\n");
+
+        while (true) {
+            // Join chat
+            boolean showTime = false;
+            boolean chat_accessed = false;
+            while (!chat_accessed) {
+                chat_accessed = manager.joinChat("GENERAL");
+            }
+
+            System.out.println(
+                    "*Chat joined. \nInsert '/LEAVE' to leave the chat room, \n'/JOIN {chatroom}' to join in other chat room, \n'/LIST' to list the available chats.\n'/TIME {state}' to show the time on messages.");
+
+            // Start reader daemon
+            ReaderDaemon reader = new ReaderDaemon(manager, showTime);
+
+            String myMessage;
+            // The message that the user intents to send is read. This is performed by a
+            // Deamon in order to keep the ability to read messages while writing one.
+            String message;
+            while (chat_accessed) {
+                message = manager.read();
+                answerBot(message);
             }
         }
     }
