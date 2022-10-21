@@ -23,33 +23,33 @@ import java.util.logging.Logger;
 // This class conects reads and writes from the machine to a local server to provide message exchange.
 public class ClientManager {
     // SERVER PORT AND HOST
-    //final int PORT = 49080;
-    //final String HOST = "192.168.3.240";
+    // final int PORT = 49080;
+    // final String HOST = "192.168.3.240";
     private int PORT;
     private String HOST = null;
     private Socket sc;
     private PrintStream toServer;
     private BufferedReader fromServer;
     private boolean connected;
-    
-    //LOGGER
+
+    // LOGGER
     private Logger log;
 
     public ClientManager(int port, String host) {
         this.PORT = port;
         this.HOST = host;
         this.connected = false;
-        
+
         // Create logger
         try {
             log = Logger.getLogger(ClientManager.class.getName());
             log.addHandler(new FileHandler("log.txt"));
         } catch (IOException e) {
-            log.severe( e.getMessage());
+            log.severe(e.getMessage());
         } catch (SecurityException e) {
             log.severe(e.getMessage());
         }
-        
+
         // Try connexion
         try {
             log.info("Connecting...");
@@ -69,7 +69,7 @@ public class ClientManager {
 
     public ClientManager(Socket sc, PrintStream toServer, BufferedReader fromServer) {
         this.connected = false;
-        
+
         // Create logger
         try {
             log = Logger.getLogger(ClientManager.class.getName());
@@ -77,9 +77,9 @@ public class ClientManager {
         } catch (IOException | SecurityException e) {
             System.out.println(e.getMessage());
         }
-        
+
         // Retry connexion
-        try{
+        try {
             log.info("Connecting...");
             this.sc = sc;
             this.toServer = toServer;
@@ -87,7 +87,7 @@ public class ClientManager {
             log.info("Connected successfully");
             connected = true;
         } catch (Exception e) {
-            log.severe( "Error while trying to connect to the server");
+            log.severe("Error while trying to connect to the server");
             System.out.println(e.getMessage());
         }
         this.PORT = 0;
@@ -98,22 +98,23 @@ public class ClientManager {
      *
      * @return The value of the atribute connected
      */
-    public boolean isConnected(){
+    public boolean isConnected() {
         return this.connected;
     }
 
     /**
      * @param message Phrase written by the client
      * @throws WriteException
-     *This method read a String written by the client from the
-     *and writes it in the interface created by the server.
+     *                        This method read a String written by the client from
+     *                        the
+     *                        and writes it in the interface created by the server.
      */
     public void write(String message) throws WriteException {
-        try{
+        try {
             this.toServer.println(message);
             this.toServer.flush();
             log.log(Level.INFO, "Writtinng message: {0}", message);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.severe(e.getMessage());
             throw new WriteException();
         }
@@ -138,7 +139,7 @@ public class ClientManager {
 
         return line;
     }
-    
+
     /**
      * This method reads a username and password
      * from the server and returns they are correct.
@@ -149,23 +150,23 @@ public class ClientManager {
      * @throws IOException
      *
      */
-    public boolean sendCredentials(String username, String password) throws IOException{
+    public boolean sendCredentials(String username, String password) throws IOException {
         // Server asks for username
         String server_message = read();
-        if(server_message.toUpperCase().trim().equals("USER:"))
+        if (server_message.toUpperCase().trim().equals("USER:"))
             this.toServer.println(username);
 
         // Server asks for password
         server_message = read();
-        if(server_message.toUpperCase().trim().equals("PASSWORD:"))
+        if (server_message.toUpperCase().trim().equals("PASSWORD:"))
             this.toServer.println(password);
-        
+
         // Server answers 'successful' or 'Error'
         server_message = read();
-        if (server_message.trim().toUpperCase().equals("SUCCESSFUL")){
+        if (server_message.trim().toUpperCase().equals("SUCCESSFUL")) {
             log.info("Crendentials matched succesfully");
             return true;
-        }else{
+        } else {
             log.log(Level.SEVERE, "Wrong credentials: {0}", server_message);
             return false;
         }
@@ -181,7 +182,7 @@ public class ClientManager {
      * @throws IOException
      *
      */
-    public boolean login(String username, String password) throws IOException{
+    public boolean login(String username, String password) throws IOException {
         // Send login request
         this.toServer.println("LOGIN");
 
@@ -198,60 +199,63 @@ public class ClientManager {
      * @throws IOException
      *
      */
-    public boolean register(String username, String password) throws IOException{
+    public boolean register(String username, String password) throws IOException {
         // Send register request
         toServer.println("REGISTER");
-        
+
         return sendCredentials(username, password);
     }
+
     /**
-    * Calls /List to cause the server to list all available rooms.
-    *
-    * @return String of all available rooms
-    */
-    public String listChatRooms() throws WriteException{
+     * Calls /List to cause the server to list all available rooms.
+     *
+     * @return String of all available rooms
+     */
+    public String listChatRooms() throws WriteException {
         // Request server to create a new chat
         write("/LIST");
         String chat_rooms = "";
-        
-        try{
+
+        try {
             chat_rooms = read();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.severe("Error. Error listing chat room.");
         }
 
         return chat_rooms;
     }
+
     /**
-    * Calls /join with an id number
-    *
-    * @return boolean: true or false depending whether the join was succesull or not.
-    */
-    public boolean joinChat(int chat_room) throws WriteException{
+     * Calls /join with an id number
+     *
+     * @return boolean: true or false depending whether the join was succesull or
+     *         not.
+     */
+    public boolean joinChat(int chat_room) {
         // Request server to join the selected chat room
         boolean result;
-        
-        try{
+
+        try {
             write("/JOIN " + chat_room);
             log.log(Level.INFO, read());
             result = true;
-        } catch (Exception e){
+        } catch (Exception e) {
             log.log(Level.SEVERE, "Error. Error joined chat room {0}.", chat_room);
             result = false;
         }
 
         return result;
     }
-    
-    public boolean joinChat(String chat_room) throws WriteException{
+
+    public boolean joinChat(String chat_room) {
         // Request server to join the selected chat room
         boolean result;
-        
-        try{
+
+        try {
             write("/JOIN " + chat_room);
             log.log(Level.INFO, read());
             result = true;
-        } catch (Exception e){
+        } catch (Exception e) {
             log.log(Level.SEVERE, "Error. Error joined chat room {0}.", chat_room);
             result = false;
         }
@@ -259,4 +263,3 @@ public class ClientManager {
         return result;
     }
 }
-

@@ -4,69 +4,76 @@ import java.io.IOException;
 import java.lang.Math;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ChatBot {
-    private ClientManager manager;
-    private Logger log;
-    private ArrayList<String> jokes;
-    private ArrayList<String> funFacts;
+    private static ArrayList<String> jokes;
+    private static ArrayList<String> funFacts;
 
-    public ChatBot() {
-        this.log = Logger.getLogger(ClientManager.class.getName());
-        String joke1 = "- Hello, I'm Rosa.\n" +
-                "- Oh, sorry, I'm color blind.";
-        String joke2 = "¿Hola?\n" +
-                "- Hello.\n" +
-                "- ¿Is it here where you wash clothes?\n" +
-                "- No.\n" +
-                "- You are so dirty then.";
-        String joke3 = "How did the telephone propose to its girlfriend? He gave her a ring.";
-
-        this.jokes = new ArrayList();
-        this.jokes.add(joke1);
-        this.jokes.add(joke2);
-        this.jokes.add(joke3);
-
-        // Datos curiosos
-        String funFact1 = "Did you know that the longest living insect is the termite queen/king, they can survive up to 50 years!";
-        String funFact2 = "Did you know that the biggest satellite in the solar system is the moon?";
-        String funFact3 = "Did you know that there are more weels than doors in the world?";
-        String funFact4 = "Did you know that lighters were invented before matchs?";
-        String funFact5 = "did you know plancton is the biggest contributor to Oxigen(O2) generation in the planet?";
-
-        this.funFacts = new ArrayList();
-        this.funFacts.add(funFact1);
-        this.funFacts.add(funFact2);
-        this.funFacts.add(funFact3);
-        this.funFacts.add(funFact4);
-        this.funFacts.add(funFact5);
-    }
-
-    public String answerBot(String entry) {
+    public static String answerBot(String entry) {
         String answer = "";
         int randomNumber;
         entry = entry.toUpperCase();
         if (entry.contains("JOKE")) {
-            randomNumber = (int) Math.random() * this.jokes.size();
-            answer = this.jokes.get(randomNumber);
+            randomNumber = (int) Math.random() * jokes.size();
+            answer = jokes.get(randomNumber);
         }
 
         else if (entry.contains("FUNFACTS")) {
-            randomNumber = (int) Math.random() * this.funFacts.size();
-            answer = this.funFacts.get(randomNumber);
+            randomNumber = (int) Math.random() * funFacts.size();
+            answer = funFacts.get(randomNumber);
 
         }
         return answer;
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
+        jokes = new ArrayList<>();
+        funFacts = new ArrayList<>();
+
+        ClientManager manager;
+
+        Logger log = Logger.getLogger(ClientManager.class.getName());
+
+        jokes.add("- Hello, I'm Rosa.\n" +
+                "- Oh, sorry, I'm color blind.");
+        jokes.add("¿Hola?\n" +
+                "- Hello.\n" +
+                "- ¿Is it here where you wash clothes?\n" +
+                "- No.\n" +
+                "- You are so dirty then.");
+        jokes.add("How did the telephone propose to its girlfriend? He gave her a ring.");
+
+        // Fun facts
+        funFacts.add(
+                "Did you know that the longest living insect is the termite queen/king, they can survive up to 50 years!");
+        funFacts.add("Did you know that the biggest satellite in the solar system is the moon?");
+        funFacts.add("Did you know that there are more weels than doors in the world?");
+        funFacts.add("Did you know that lighters were invented before matchs?");
+        funFacts.add("did you know plancton is the biggest contributor to Oxigen(O2) generation in the planet?");
 
         // The user has to enter the Port and the Host to connect to a server.
-        int port = 49080;
-        String host = "192.168.3.240";
+        Scanner scanner = new Scanner(System.in);
+        int port;
+        String host;
 
         // Try conection
         do {
+            // Get port
+            port = -1;
+            do {
+                try {
+                    System.out.print("Please enter the Port: ");
+                    port = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid format for port.\n");
+                }
+            } while (port == -1);
+
+            // Get host
+            System.out.print("Please enter the Host: ");
+            host = scanner.nextLine();
+
             manager = new ClientManager(port, host);
 
             if (!manager.isConnected())
@@ -85,7 +92,6 @@ public class ChatBot {
                     // If can not login, try to register
                     access = manager.register(username, password);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 log.info(e.getMessage());
             }
         }
