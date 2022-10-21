@@ -150,16 +150,16 @@ public class ClientManager {
      * @throws IOException
      *
      */
-    public boolean sendCredentials(String username, String password) throws IOException {
+    public boolean sendCredentials(String username, String password) throws IOException, WriteException {
         // Server asks for username
         String server_message = read();
         if (server_message.toUpperCase().trim().equals("USER:"))
-            this.toServer.println(username);
+            write(username);
 
         // Server asks for password
         server_message = read();
         if (server_message.toUpperCase().trim().equals("PASSWORD:"))
-            this.toServer.println(password);
+            write(password);
 
         // Server answers 'successful' or 'Error'
         server_message = read();
@@ -182,9 +182,9 @@ public class ClientManager {
      * @throws IOException
      *
      */
-    public boolean login(String username, String password) throws IOException {
+    public boolean login(String username, String password) throws IOException, WriteException {
         // Send login request
-        this.toServer.println("LOGIN");
+        write("LOGIN");
 
         return sendCredentials(username, password);
     }
@@ -199,9 +199,9 @@ public class ClientManager {
      * @throws IOException
      *
      */
-    public boolean register(String username, String password) throws IOException {
+    public boolean register(String username, String password) throws IOException, WriteException {
         // Send register request
-        toServer.println("REGISTER");
+        write("REGISTER");
 
         return sendCredentials(username, password);
     }

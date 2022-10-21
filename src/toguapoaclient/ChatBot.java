@@ -27,7 +27,7 @@ public class ChatBot {
         return answer;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws WriteException {
         jokes = new ArrayList<>();
         funFacts = new ArrayList<>();
 
@@ -84,13 +84,23 @@ public class ChatBot {
         boolean access = false;
 
         while (!access) {
+            // Show initial message
+            System.out.println(manager.read());
+            
+            
             String username = "Chatbot";
             String password = "jpioj23ufh";
             // Try to login
             try {
-                if (!(access = manager.login(username, password)))
-                    // If can not login, try to register
+                System.out.println("Envio credenciales");
+                
+                // If can not login, try to register
+                if (!(access = manager.login(username, password))){
+                    // Show initial message
+                    System.out.println(manager.read());
+                    
                     access = manager.register(username, password);
+                }
             } catch (IOException e) {
                 log.info(e.getMessage());
             }
