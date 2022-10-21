@@ -58,7 +58,7 @@ public class Encrypter {
 
             encryptedWord += rule.get(word.charAt(i)) + " ";
         }
-        encryptedWord.trim();
+        encryptedWord = encryptedWord.trim();
 
         return encryptedWord;
     }
