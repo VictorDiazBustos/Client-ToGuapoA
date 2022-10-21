@@ -49,6 +49,7 @@ public class Main {
         // Try login/register
         boolean access = false;
         int option;
+
         while(!access){
             //The user has to enter whether they want to login or register
             option = -1;
@@ -84,7 +85,7 @@ public class Main {
             // Join chat
             option = -1;
 
-
+            boolean showTime = false;
             boolean chat_accessed = false;
             while(!chat_accessed){
                 do{
@@ -117,10 +118,10 @@ public class Main {
                 }
             }
 
-            System.out.println("*Chat joined. \nInsert '/LEAVE' to leave the chat room, \n'/JOIN {chatroom}' to join in other chat room, \n'/LIST' to list the available chats.\n");
+            System.out.println("*Chat joined. \nInsert '/LEAVE' to leave the chat room, \n'/JOIN {chatroom}' to join in other chat room, \n'/LIST' to list the available chats.\n'/TIME {state}' to show the time on messages.");
 
             // Start reader daemon
-            ReaderDaemon reader = new ReaderDaemon(manager);
+            ReaderDaemon reader = new ReaderDaemon(manager, showTime);
 
             String myMessage;
             // The message that the user intents to send is read. This is performed by a
@@ -133,6 +134,14 @@ public class Main {
                     chat_accessed = false;
                     manager.write(myMessage);
                     System.out.println(manager.read());
+                }
+                else if(myMessage.toUpperCase().equals("/TIME ON")){
+                    showTime = true;
+                    reader.setShowTime(showTime);
+                }
+                else if(myMessage.toUpperCase().equals("/TIME OFF")){
+                    showTime = false;
+                    reader.setShowTime(showTime);
                 }
                 else{
                     manager.write(myMessage);

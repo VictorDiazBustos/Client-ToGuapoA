@@ -1,12 +1,18 @@
 package toguapoaclient;
 
+import java.util.Date;
+
 public class ReaderDaemon extends Thread{
     ClientManager manager;
     boolean exit;
+    boolean showTime;
+    Date date;
 
-    public ReaderDaemon(ClientManager manager){
+    public ReaderDaemon(ClientManager manager, boolean showTime){
         this.manager = manager;
+        this.showTime = showTime;
         this.exit = false;
+        this.date = new Date();
         setDaemon(true);
         start();
     }
@@ -17,6 +23,9 @@ public class ReaderDaemon extends Thread{
         String message;
         while(!this.exit){
             if(!(message = this.manager.read()).equals("")){
+                if (showTime){
+                    System.out.print("[" + this.date + "]: ");
+                }
                 System.out.println(message);
             }
         }
@@ -27,6 +36,10 @@ public class ReaderDaemon extends Thread{
      */
     public void stopProcess(){
         this.exit = true;
+    }
+
+    public void setShowTime (boolean showTime){
+        this.showTime = showTime;
     }
 
 }
