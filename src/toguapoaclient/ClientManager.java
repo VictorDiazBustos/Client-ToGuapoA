@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,8 @@ public class ClientManager {
     private PrintStream toServer;
     private BufferedReader fromServer;
     private boolean connected;
+    private boolean showTime;
+    private Date date;
     
     //LOGGER
     private Logger log;
@@ -38,6 +41,8 @@ public class ClientManager {
         this.PORT = port;
         this.HOST = host;
         this.connected = false;
+        this.showTime = false;
+        this.date = new Date();
         
         // Create logger
         try {
@@ -109,6 +114,8 @@ public class ClientManager {
      */
     public void write(String message) throws WriteException {
         try{
+            if (showTime)
+                System.out.print("[" + this.date.getTime() + "]: ");
             this.toServer.println(message);
             this.toServer.flush();
             log.log(Level.INFO, "Writtinng message: {0}", message);
@@ -257,5 +264,7 @@ public class ClientManager {
 
         return result;
     }
+
+    
 }
 
